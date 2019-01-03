@@ -5,6 +5,7 @@ import com.zzqfsy.account.dao.TAccountFlowDAO;
 import com.zzqfsy.account.manager.LockOnRedisManager;
 import com.zzqfsy.account.repository.AccountRepository;
 import com.zzqfsy.account.test.base.BaseMockConfigTest;
+import com.zzqfsy.account.test.base.BaseTest;
 import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @date: Created in 10:22 AM 2019/1/2
  * @modified By:
  **/
-public class TAccountRepositoryTest extends BaseMockConfigTest {
+public class TAccountRepositoryTest extends BaseTest {
 
     @Spy
     @InjectMocks

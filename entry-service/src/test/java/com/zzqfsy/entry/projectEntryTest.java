@@ -35,7 +35,7 @@ public class projectEntryTest {
         logger.info("out: " + JSONObject.toJSONString(baseResp));
     }
 
-    @Test
+    //@Test
     public void oneBuyProjectTest(){
         buyProject();
     }

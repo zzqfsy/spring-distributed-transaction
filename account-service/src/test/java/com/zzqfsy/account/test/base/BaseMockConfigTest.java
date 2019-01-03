@@ -1,6 +1,8 @@
 package com.zzqfsy.account.test.base;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.redisson.api.RedissonClient;
@@ -15,15 +17,16 @@ import org.springframework.context.annotation.Configuration;
  * @modified By:
  **/
 @Configuration
-public class BaseMockConfigTest extends BaseTest {
+public class BaseMockConfigTest {
 
     @Bean
     public RedissonClient redissonClient(){
         return Mockito.mock(RedissonClient.class);
     }
+    //
+    //@Before
+    //public void init(){
+    //    MockitoAnnotations.initMocks(this);
+    //}
 
-    @Before
-    public void init(){
-        MockitoAnnotations.initMocks(this);
-    }
 }

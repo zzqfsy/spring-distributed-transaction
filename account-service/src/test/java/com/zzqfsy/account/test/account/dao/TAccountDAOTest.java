@@ -3,6 +3,7 @@ package com.zzqfsy.account.test.account.dao;
 import com.zzqfsy.account.dao.TAccountDAO;
 import com.zzqfsy.account.domain.Account;
 import com.zzqfsy.account.test.base.BaseMockConfigTest;
+import com.zzqfsy.account.test.base.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date: Created in 10:11 AM 2019/1/2
  * @modified By:
  **/
-public class TAccountDAOTest extends BaseMockConfigTest {
+public class TAccountDAOTest extends BaseTest {
 
     @Autowired
     private TAccountDAO tAccountDAO;
