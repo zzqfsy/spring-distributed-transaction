@@ -40,15 +40,16 @@ public class AccountRepository {
         return tAccountDAO.selectOne(temp1);
     }
 
+    public static final String LOCK_KEY_ACCOUNT_BALANCE = "lock:term:account:balance:";
     /**
      * 更改账户余额
      * @param userId
      * @param changeAmount
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Pair<Boolean, String> changeUserAccountBalance(Integer userId, String orderNo, BigDecimal changeAmount){
-        String key = "lock:term:account:balance:" + userId;
+        String key = LOCK_KEY_ACCOUNT_BALANCE + userId;
         Pair pair = lockOnRedisManager.handleByUnfair(key, 5, 5, Pair.class, () -> {
 
             Account userAccount = this.getUserAccountByUserId(userId);

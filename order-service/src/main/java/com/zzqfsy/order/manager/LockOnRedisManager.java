@@ -47,7 +47,7 @@ public class LockOnRedisManager {
             isGainLock = true;
             result = callable.call();
         } catch (Exception e) {
-//            logger.error(String.format("LockOnRedisManger %s happen exception", callable.getClass().toString()), e);
+            logger.error(String.format("LockOnRedisManger %s happen exception", callable.getClass().toString()), e);
             throw new RuntimeException(e);
         } finally {
             if (isGainLock) lock.unlock();

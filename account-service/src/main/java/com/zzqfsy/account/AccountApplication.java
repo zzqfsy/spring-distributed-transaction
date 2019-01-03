@@ -1,4 +1,4 @@
-package com.zzqfsy.project;
+package com.zzqfsy.account;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Modified By:
  **/
 @SpringBootApplication
-public class Application {
+public class AccountApplication {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AccountApplication.class, args);
     }
 }

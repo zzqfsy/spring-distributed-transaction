@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
       name: test
-      url: jdbc:mysql://192.168.140.128:3306/zzqfsy-project?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/zzqfsy-project?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
       username: zzqfsy
       password: zzqfsy
       # 使用druid数据源
@@ -25,6 +25,6 @@ spring:
       maxOpenPreparedStatements: 20
   redis:
     database: 0
-    host: 192.168.140.128
-    port: 8378
+    host: 127.0.0.1
+    port: 6379
     password: zzqfsy

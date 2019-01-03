@@ -1,8 +1,10 @@
 package com.zzqfsy.account.manager;
 
+import com.zzqfsy.account.conf.redis.RedisConfProperties;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.ValueOperations;
@@ -20,6 +22,7 @@ import java.util.function.LongUnaryOperator;
  **/
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Component
+@ConditionalOnBean(RedisConfProperties.class)
 public class RedisDB0Manager {
     
     @Resource(name = "redisTemplateDB0")

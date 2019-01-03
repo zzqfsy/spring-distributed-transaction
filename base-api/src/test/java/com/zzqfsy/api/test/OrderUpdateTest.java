@@ -1,3 +1,5 @@
+package com.zzqfsy.api.test;
+
 import com.alibaba.fastjson.JSONObject;
 import com.zzqfsy.api.decoder.FeignClassDecoder;
 import com.zzqfsy.api.resp.BaseResp;
@@ -6,7 +8,6 @@ import feign.Feign;
 import feign.Request;
 import feign.Retryer;
 import feign.form.FormEncoder;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +32,7 @@ public class OrderUpdateTest {
         logger.info("out: " + JSONObject.toJSONString(baseResp));
     }
 
-    @Test
+    //@Test
     public void oneUpdateOrderTest(){
         updateOrder();
     }

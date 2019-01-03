@@ -1,58 +1,49 @@
-package test.com.zzqfsy.project.test;
+package com.zzqfsy.api.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zzqfsy.api.decoder.FeignClassDecoder;
 import com.zzqfsy.api.resp.BaseResp;
-import com.zzqfsy.api.rpc.IAccountFacade;
-import com.zzqfsy.api.rpc.IProjectFacade;
-import feign.*;
+import com.zzqfsy.api.rpc.IOrderFacade;
+import feign.Feign;
+import feign.Request;
+import feign.Retryer;
 import feign.form.FormEncoder;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: zzqfsy
  * @Description:
- * @Date: Created in 10:28 2018/8/21
+ * @Date: Created in 9:21 2018/8/17
  * @Modified By:
  **/
-public class ProjectTest {
-    private static Logger logger= LoggerFactory.getLogger(ProjectTest.class);
+public class OrderCreateTest {
+    private static Logger logger= LoggerFactory.getLogger(OrderCreateTest.class);
 
-    private AtomicInteger serialNumber = new AtomicInteger();
+    IOrderFacade service = Feign.builder()
+            .options(new Request.Options(15000, 15000))
+            .retryer(new Retryer.Default(5000, 5000, 1))
+            .encoder(new FormEncoder())
+            .decoder(new FeignClassDecoder())
+            .target(IOrderFacade.class, "http://127.0.0.1:8183");
 
-    public void changProject(Integer i){
-        IProjectFacade service = Feign.builder()
-                .options(new Request.Options(15000, 15000))
-                .retryer(new Retryer.Default(5000, 5000, 1))
-                .encoder(new FormEncoder())
-                .decoder(new FeignClassDecoder())
-                .requestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void apply(RequestTemplate template) {
-                        template.header("serialNumber", i.toString());
-                    }
-                })
-                .target(IProjectFacade.class, "http://127.0.0.1:8182");
-
-        BaseResp baseResp = service.changeProjectAble("1", "-100");
+    public void createOrder(){
+        BaseResp baseResp = service.createOrder("1","1", "100");
         logger.info("out: " + JSONObject.toJSONString(baseResp));
     }
 
-    @Test
-    public void oneTest(){
-        changProject(1);
+    //@Test
+    public void oneCreateOrderTest(){
+        createOrder();
     }
 
-    @Test
-    public void BatchTest(){
-        int threadNum = 1000;
+    //@Test
+    public void BatchCreateOrderTest(){
+        int threadNum = 10;
         final ExecutorService service = Executors.newFixedThreadPool(threadNum);
         CyclicBarrier barrier = new CyclicBarrier(threadNum, () -> System.out.println(threadNum + " threads ready, let's go"));
         CountDownLatch latch = new CountDownLatch(threadNum);
@@ -60,7 +51,6 @@ public class ProjectTest {
         try {
             List<Future> futures = new ArrayList<>();
             for (int i = 0; i < threadNum; i++) {
-                int finalI = i;
                 futures.add(service.submit(() -> {
                     try {
                         logger.info("wait");
@@ -72,7 +62,7 @@ public class ProjectTest {
                     }
 
                     logger.info("start");
-                    changProject(finalI);
+                    createOrder();
                 }));
             }
 

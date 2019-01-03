@@ -1,7 +1,9 @@
+package com.zzqfsy.api.test;
+
 import com.alibaba.fastjson.JSONObject;
 import com.zzqfsy.api.decoder.FeignClassDecoder;
 import com.zzqfsy.api.resp.BaseResp;
-import com.zzqfsy.api.rpc.IOrderFacade;
+import com.zzqfsy.api.rpc.IAccountFacade;
 import feign.Feign;
 import feign.Request;
 import feign.Retryer;
@@ -20,29 +22,30 @@ import java.util.concurrent.*;
  * @Date: Created in 9:21 2018/8/17
  * @Modified By:
  **/
-public class OrderCreateTest {
-    private static Logger logger= LoggerFactory.getLogger(OrderCreateTest.class);
 
-    IOrderFacade service = Feign.builder()
+public class AccountChangeTest {
+    private static Logger logger= LoggerFactory.getLogger(AccountChangeTest.class);
+
+    IAccountFacade service = Feign.builder()
             .options(new Request.Options(15000, 15000))
             .retryer(new Retryer.Default(5000, 5000, 1))
             .encoder(new FormEncoder())
             .decoder(new FeignClassDecoder())
-            .target(IOrderFacade.class, "http://127.0.0.1:8183");
+            .target(IAccountFacade.class, "http://127.0.0.1:8181");
 
-    public void createOrder(){
-        BaseResp baseResp = service.createOrder("1","1", "100");
+    public void changAccount(){
+        BaseResp baseResp = service.changeUserAccountBalance("1", "order", "100");
         logger.info("out: " + JSONObject.toJSONString(baseResp));
     }
 
-    @Test
-    public void oneCreateOrderTest(){
-        createOrder();
+    //@Test
+    public void oneChangAccountTest(){
+        changAccount();
     }
 
-    @Test
-    public void BatchCreateOrderTest(){
-        int threadNum = 10;
+    //@Test
+    public void batchChangAccountTest(){
+        int threadNum = 2;
         final ExecutorService service = Executors.newFixedThreadPool(threadNum);
         CyclicBarrier barrier = new CyclicBarrier(threadNum, () -> System.out.println(threadNum + " threads ready, let's go"));
         CountDownLatch latch = new CountDownLatch(threadNum);
@@ -61,7 +64,7 @@ public class OrderCreateTest {
                     }
 
                     logger.info("start");
-                    createOrder();
+                    changAccount();
                 }));
             }
 

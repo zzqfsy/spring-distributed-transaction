@@ -47,7 +47,7 @@ public class LockOnRedisManager {
             isGainLock = true;
             result = callable.call();
         } catch (Exception e) {
-//            logger.error(String.format("LockOnRedisManger %s happen exception", callable.getClass().toString()), e);
+            logger.error(String.format("LockOnRedisManger %s happen exception", callable.getClass().toString()), e);
             throw new RuntimeException(e);
         } finally {
             if (isGainLock) lock.unlock();
@@ -58,13 +58,13 @@ public class LockOnRedisManager {
 
     public <T> T handleByUnfair(String key, long waitTime, long leaseTime,  Class<T> clazz, Callable callable){
         Object object = handle(false, key, waitTime, leaseTime, callable);
-        if (object == null) return null;
+        if (object == null) { return null; }
         return (clazz.getName().equals(object.getClass().getName()) ? (T) object : null);
     }
 
     public <T> T handleByFair(String key, long waitTime, long leaseTime,  Class<T> clazz, Callable callable){
         Object object = handle(true, key, waitTime, leaseTime, callable);
-        if (object == null) return null;
+        if (object == null) { return null; }
         return (clazz.getName().equals(object.getClass().getName()) ? (T) object : null);
     }
 }

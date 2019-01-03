@@ -4,8 +4,9 @@ import io.lettuce.core.ClientOptions;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -31,11 +32,13 @@ import java.time.Duration;
 public class RedisConfig extends CachingConfigurerSupport {
 
     @Bean
+    @ConditionalOnBean(RedisConfProperties.class)
     public CacheManager cacheManager(@Qualifier("connectionFactoryDB0") RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.create(redisConnectionFactory);
     }
 
     @Bean(name = "redisTemplateDB0")
+    @ConditionalOnBean(RedisConfProperties.class)
     public RedisTemplate<String, String> redisTemplateDB0(@Qualifier("connectionFactoryDB0") RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);
@@ -43,24 +46,20 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-    public RedissonClient getRedissonClient(@Value("${spring.redis.host}") String host,
-                                            @Value("${spring.redis.port}") int port,
-                                            @Value("${spring.redis.password}") String password,
-                                            @Value("${spring.redis.database}") int database) {
+    @ConditionalOnBean(RedisConfProperties.class)
+    public RedissonClient getRedissonClient(@Autowired RedisConfProperties redisConfProperties) {
         Config config = new Config();
         config.useSingleServer()
-                .setAddress("redis://" + host + ":" + port)
-                .setPassword(password)
-                .setDatabase(database);
+                .setAddress("redis://" + redisConfProperties.getHost() + ":" + redisConfProperties.getPort())
+                .setPassword(redisConfProperties.getPassword())
+                .setDatabase(redisConfProperties.getDatabase());
         return Redisson.create(config);
     }
 
     @Bean(name = "connectionFactoryDB0")
-    public RedisConnectionFactory connectionFactoryDB1(@Value("${spring.redis.host}") String host,
-                                                       @Value("${spring.redis.port}") int port,
-                                                       @Value("${spring.redis.password}") String password,
-                                                       @Value("${spring.redis.database}") int database) {
-        return connectionFactory(host, port, database, password);
+    @ConditionalOnBean(RedisConfProperties.class)
+    public RedisConnectionFactory connectionFactoryDB1(@Autowired RedisConfProperties redisConfProperties) {
+        return connectionFactory(redisConfProperties.getHost(), redisConfProperties.getPort(), redisConfProperties.getDatabase(), redisConfProperties.getPassword());
     }
 
     public RedisConnectionFactory connectionFactory(String hostName, int port, int database, String password) {

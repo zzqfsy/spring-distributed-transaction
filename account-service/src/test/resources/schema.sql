@@ -30,6 +30,7 @@ CREATE TABLE `t_account` (
 -- Records of t_account
 -- ----------------------------
 INSERT INTO `t_account` VALUES ('1', '1', '2600.00');
+INSERT INTO `t_account` VALUES ('2', '2', '2700.00');
 
 -- ----------------------------
 -- Table structure for t_account_flow
