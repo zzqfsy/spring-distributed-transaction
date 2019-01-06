@@ -1,17 +1,13 @@
 package com.zzqfsy.account.test.base;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.context.annotation.Primary;
 
 /**
- * @Author: 荀凡
+ * @Author: zzqfsy
  * @Description:
  * @date: Created in 11:44 AM 2018/12/31
  * @modified By:
@@ -20,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class BaseMockConfigTest {
 
     @Bean
+    @Primary
     public RedissonClient redissonClient(){
         return Mockito.mock(RedissonClient.class);
     }

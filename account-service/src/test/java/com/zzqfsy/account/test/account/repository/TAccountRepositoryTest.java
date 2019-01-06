@@ -4,7 +4,6 @@ import com.zzqfsy.account.dao.TAccountDAO;
 import com.zzqfsy.account.dao.TAccountFlowDAO;
 import com.zzqfsy.account.manager.LockOnRedisManager;
 import com.zzqfsy.account.repository.AccountRepository;
-import com.zzqfsy.account.test.base.BaseMockConfigTest;
 import com.zzqfsy.account.test.base.BaseTest;
 import javafx.util.Pair;
 import org.junit.Assert;
@@ -23,7 +22,7 @@ import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author: 荀凡
+ * @Author: zzqfsy
  * @Description:
  * @date: Created in 10:22 AM 2019/1/2
  * @modified By:
